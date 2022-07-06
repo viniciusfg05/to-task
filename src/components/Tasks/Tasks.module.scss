@@ -1,3 +1,56 @@
+.headerInput {
+
+  .form {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: -3rem;
+  
+    
+    textarea {
+      background: var(--gray-500);
+      width: 63.8rem;
+      height: 6rem;
+      color: var(--gray-300);
+      font-size: 1.6rem;
+      border: none;
+      resize: none;
+      border-radius: 8px;
+      padding: 1rem 2rem;
+      align-items: center;
+  
+    }
+  
+    textarea::placeholder {
+      height: 100%;
+      align-items: center;
+    }
+  
+    footer {
+      display: flex;
+      align-items: center;
+  
+      button {
+        font-size: 1.4rem;
+        width: 9rem;
+        height: 6rem;
+        background: var(--blueDark);
+        color: var(--gray-100);
+        border: none;
+        border-radius: 8px;
+        margin-left: 0.8rem;
+        
+        .IconAddNewTask {
+          font-size: 1.4rem;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
 .container {
   width: 73.6rem;
   height: 100%;
@@ -66,7 +119,7 @@
     }
   }
 
-  .taskList {
+  .containerTasksCreated {
     margin-top: 2.4rem;
   }
 
@@ -110,7 +163,7 @@
 
         .checkbox > input {
           height: 1.8rem;
-          width: 2.1rem;
+          width: 1.8rem;
           -webkit-appearance: none;
           -moz-appearance: none;
           -o-appearance: none;

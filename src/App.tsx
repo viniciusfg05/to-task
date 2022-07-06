@@ -4,12 +4,16 @@ import { Tasks } from './components/Tasks/Tasks'
 import './styles/Global.scss'
 
 
+
 export function App() {
   return (
     <div>
       <Header />
-      <Input />
+
+      {/* <Input /> */}
+
       <Tasks />
+
     </div>
   )
 }

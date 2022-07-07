@@ -1,6 +1,6 @@
 import styles from './Tasks.module.scss'
-import { FaRegTrashAlt, FaSmileWink } from 'react-icons/fa';
-import { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useEffect, useState } from 'react';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 
 export const tasks = [
@@ -16,6 +16,10 @@ export const tasks = [
   }
 ]
 
+interface PropsAddChecked {
+  addChecked: () => void
+}
+
 interface Tasks {
   id: number,
   tasks: string,
@@ -27,14 +31,11 @@ export function Tasks() {
 
   const [checked, setChecked ] = useState(false)
 
-  const [countTrue, setCountTrue ] = useState('')
-
-  const [countFalse, setCountFalse ] = useState([])
+  const [countBoolean, setCountBoolean ] = useState(0)
 
   const [ countTasks, setCountTasks ] = useState(0)
 
   const [newTasks, setNewTasks] = useState<Tasks[]>(tasks)
-  console.log(newTasks)
 
   function handleNewTasksChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setNewTasksText(event.target.value)
@@ -58,20 +59,32 @@ export function Tasks() {
       return task.id !== id
     })
 
+
     setNewTasks(deleteTasks)
   }
 
-  const updateTask = () => {  
+  const updateTask = (id: number) => {  
     setChecked(!checked);
+
+    const taskIndex = newTasks.findIndex((task) => {
+      return task.id == id;
+      });
+
+
+    const tempTasks = [...newTasks];
+
+    tempTasks[taskIndex].checked = !tempTasks[taskIndex].checked;
+
+    setNewTasks(tempTasks);
     
   };
-
-  const data = newTasks.map(task => task.checked)
-  const dataString = data
   
-  const total = dataString.find(data => data === false)
-  console.log(total)
+  function addChecked(event: ChangeEvent<HTMLInputElement>) {
+    const result = event.target.checked
+    
+    result === true ?  setCountBoolean(countBoolean + 1) : setCountBoolean(countBoolean - 1)
 
+  }
   
 
   function totalCountTasks() {
@@ -79,6 +92,7 @@ export function Tasks() {
       const total = newTasks.length
       setCountTasks(total)
     }, [newTasks])
+
   }
 
   totalCountTasks()
@@ -97,7 +111,7 @@ export function Tasks() {
   
             <footer>
               <button type="submit">
-                Criar <IoIosAddCircleOutline className={styles.IconAddNewTask}/>
+                <p>Criar</p> <IoIosAddCircleOutline className={styles.IconAddNewTask}/>
               </button>
             </footer>
           </form>
@@ -113,21 +127,21 @@ export function Tasks() {
         <div className={styles.tasksDone}>
           <strong>Concluídas</strong>
           <div className={styles.tasksDoneCount}>
-            <strong>2</strong> de <p>{ countTasks }</p>
+            <strong>{countBoolean}</strong> de <p>{ countTasks }</p>
           </div>
         </div>
       </header>
 
         <div className={styles.containerTasksCreated}>
           {newTasks.map(task => (
-            <div className={styles.taskList}>
+            <div key={task.id} className={styles.taskList}>
               <div className={styles.task}>
                 <label className={styles.checkbox}>
                     <input
                     name='inputCheckbox'
-                    onChange={updateTask}
+                    onChange={() => updateTask(task.id)}
                     type="checkbox"
-                    // checked
+                    onClick={(event: any) => addChecked(event)}
                     />
 
                     <span>{task.tasks}</span>

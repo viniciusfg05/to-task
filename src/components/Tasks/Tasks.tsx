@@ -1,5 +1,5 @@
 import styles from './Tasks.module.scss'
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt, FaSmileWink } from 'react-icons/fa';
 import { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useEffect, useState } from 'react';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 
@@ -7,28 +7,34 @@ export const tasks = [
   {
     id: 1,
     tasks: 'Lorem Lorem Lorem Lorem',
-    isComplete: false,
+    checked: false,
   },
   {
     id: 2,
     tasks: 'Lorem Lorem Lorem Lorem jjjfsjjksfjkdjdfjd',
-    isComplete: false,
+    checked: false,
   }
 ]
 
 interface Tasks {
   id: number,
   tasks: string,
-  isComplete: boolean,
+  checked: boolean,
 }
 
 export function Tasks() {
   const [newTasksText, setNewTasksText ] = useState('')
 
+  const [checked, setChecked ] = useState(false)
+
+  const [countTrue, setCountTrue ] = useState('')
+
+  const [countFalse, setCountFalse ] = useState([])
+
   const [ countTasks, setCountTasks ] = useState(0)
 
   const [newTasks, setNewTasks] = useState<Tasks[]>(tasks)
-  // console.log(newTasks)
+  console.log(newTasks)
 
   function handleNewTasksChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setNewTasksText(event.target.value)
@@ -40,7 +46,7 @@ export function Tasks() {
     const newTask = {
       id: Math.random(),
       tasks: newTasksText,
-      isComplete: false
+      checked: false
     }
   
     setNewTasks(result => [...result, newTask])
@@ -55,14 +61,18 @@ export function Tasks() {
     setNewTasks(deleteTasks)
   }
 
-  function updateTask(event: ChangeEvent<HTMLInputElement>) {
+  const updateTask = () => {  
+    setChecked(!checked);
+    
+  };
 
-    const name = event.target.checked;
+  const data = newTasks.map(task => task.checked)
+  const dataString = data
+  
+  const total = dataString.find(data => data === false)
+  console.log(total)
 
-    console.log(name)
-
-  }
-
+  
 
   function totalCountTasks() {
     useEffect(() => {
@@ -115,9 +125,10 @@ export function Tasks() {
                 <label className={styles.checkbox}>
                     <input
                     name='inputCheckbox'
-                    onClick={() => updateTask}
-                    checked={task.isComplete}
-                    type="checkbox" />
+                    onChange={updateTask}
+                    type="checkbox"
+                    // checked
+                    />
 
                     <span>{task.tasks}</span>
                 </label> 
